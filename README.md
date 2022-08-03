@@ -15,11 +15,3 @@
 <h1 align="center">
 
 <!-- ![libft](https://github.com/nach131/42Barcelona/blob/main/images/125.png) -->
-
-
-
-
-
-
-[![GitHub watchers](https://badgen.net/github/watchers/nach131/get_next_line)](https://github.com/nach131/get_next_line)
-
