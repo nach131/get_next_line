@@ -46,17 +46,17 @@ char *get_next_line(int fd)
 	return (tp.to_send);
 }
 
-// int main(void)
-// {
-// 	int fd;
-// 	char *res;
+int main(void)
+{
+	int fd;
+	char *res;
 
-// 	fd = open("text.txt", O_RDONLY);
-// 	if (fd)
-// 	{
-// 		printf("File was opened\n");
-// 	}
-// 	while ((res = get_next_line(fd)) != NULL)
-// 		printf("res:\e[3;33m\n%s\e[0m\n", res);
-// 	// res = get_next_line(fd);
-// }
+	fd = open("../test/text.txt", O_RDONLY);
+	if (fd)
+	{
+		printf("File was opened\n");
+	}
+	while ((res = get_next_line(fd)) != NULL)
+		printf("res:\e[3;33m\n%s\e[0m\n", res);
+	// res = get_next_line(fd);
+}
