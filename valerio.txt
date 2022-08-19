@@ -1,0 +1,4 @@
+modificacion statica desde funcion retornar la static
+siempre enla funcion donde te la has declarada
+
+siempre hacer free de la estatica pasada a la funcione.
