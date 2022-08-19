@@ -1,62 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/18 17:30:19 by nmota-bu         ###   ########.fr       */
+/*   Created: 2022/05/14 12:35:37 by nmota-bu          #+#    #+#             */
+/*   Updated: 2022/06/18 22:29:51 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ╔════════════════════════════════════════════════════════════════════════╗ */
 /* ║                 https://github.com/nach131/42Barcelona                 ║ */
 /* ╚════════════════════════════════════════════════════════════════════════╝ */
+//  void *memcpy(void *dest, const void *src, size_t n)
+//  copia n caracteres del área de memoria src al área de memoria dest.
+//  retornar NULL en el caso de que los dos argumentos se han NULL
 
-// solo para open
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#define BUFFER_SIZE 4
-//
 #include "get_next_line.h"
 
-char *get_next_line(int fd)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	// static char *readed;
-	static t_print tp;
-	char *buf;
+	char	*de;
+	char	*sr;
+	size_t	i;
 
-	if (!tp.to_send)
-		tp.to_send = ft_strdup("");
-
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (NULL);
-	read(fd, buf, BUFFER_SIZE);
-	printf("buf\n: %s\n", buf);
-	printf("fd: %i\n", fd);
-	tp.to_send = ft_strjoin(tp.to_send, buf);
-	free(buf);
-	if (!ft_strchr(tp.to_send, '\n'))
-		get_next_line(fd);
-	return (tp.to_send);
+	de = (char *)dest;
+	sr = (char *)src;
+	i = 0;
+	if (sr || de)
+	{
+		while (i < n)
+		{
+			de[i] = sr[i];
+			i++;
+		}
+		return (de);
+	}
+	return (NULL);
 }
-
-// int main(void)
-// {
-// 	int fd;
-// 	char *res;
-
-// 	fd = open("text.txt", O_RDONLY);
-// 	if (fd)
-// 	{
-// 		printf("File was opened\n");
-// 	}
-// 	while ((res = get_next_line(fd)) != NULL)
-// 		printf("res:\e[3;33m\n%s\e[0m\n", res);
-// 	// res = get_next_line(fd);
-// }

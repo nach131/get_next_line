@@ -1,62 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/18 17:30:19 by nmota-bu         ###   ########.fr       */
+/*   Created: 2022/06/01 18:50:53 by nmota-bu          #+#    #+#             */
+/*   Updated: 2022/06/18 12:39:09 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ╔════════════════════════════════════════════════════════════════════════╗ */
 /* ║                 https://github.com/nach131/42Barcelona                 ║ */
 /* ╚════════════════════════════════════════════════════════════════════════╝ */
+//  función asigna memoria suficiente para una copia del string s1,
+//   hace la copia y le devuelve un puntero.
+//   el puntero posteriormente puede usarse como argumento de la función free
+//   para liberar la memoria.
 
-// solo para open
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#define BUFFER_SIZE 4
-//
 #include "get_next_line.h"
 
-char *get_next_line(int fd)
+char	*ft_strdup(const char *s1)
 {
-	// static char *readed;
-	static t_print tp;
-	char *buf;
+	char	*res;
+	size_t	len;
+	int		i;
 
-	if (!tp.to_send)
-		tp.to_send = ft_strdup("");
-
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
+	len = ft_strlen(s1) + 1;
+	if (!s1)
 		return (NULL);
-	read(fd, buf, BUFFER_SIZE);
-	printf("buf\n: %s\n", buf);
-	printf("fd: %i\n", fd);
-	tp.to_send = ft_strjoin(tp.to_send, buf);
-	free(buf);
-	if (!ft_strchr(tp.to_send, '\n'))
-		get_next_line(fd);
-	return (tp.to_send);
+	res = (char *)malloc(len * sizeof(*s1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }
-
-// int main(void)
+// int	main(void)
 // {
-// 	int fd;
-// 	char *res;
-
-// 	fd = open("text.txt", O_RDONLY);
-// 	if (fd)
-// 	{
-// 		printf("File was opened\n");
-// 	}
-// 	while ((res = get_next_line(fd)) != NULL)
-// 		printf("res:\e[3;33m\n%s\e[0m\n", res);
-// 	// res = get_next_line(fd);
+// 	char	str[] ="42 Barcelona";
+// 	char	*res = ft_strdup(str);
+// 
+// 	printf("str original: %s, puntero: %p,%u\n", str, str);
+// 	printf("res copiada: %s, puntero: %p,%u\n", res, res);
 // }
+// 
+// // str: 42 Barcelona, puntero: 0x7ffee6e4f950
+// // res: 42 Barcelona, puntero: 0x7fef3d405790
