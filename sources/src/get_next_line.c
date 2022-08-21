@@ -20,9 +20,16 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define BUFFER_SIZE 4
+#define BUFFER_SIZE 42
 //
 #include "get_next_line.h"
+
+static void	ft_free_tp(t_print *tp)
+{
+	// free(tp->to_send);
+	printf("%s",tp->to_send);
+	return;
+}
 
 char *get_next_line(int fd)
 {
@@ -37,26 +44,51 @@ char *get_next_line(int fd)
 	if (!buf)
 		return (NULL);
 	read(fd, buf, BUFFER_SIZE);
-	printf("buf\n: %s\n", buf);
-	printf("fd: %i\n", fd);
+	if (*buf == '\0')
+	{
+		// tp.to_send = ft_strdup("");
+		// free(tp.to_send);
+		ft_free_tp(&tp);
+		return (NULL);
+		// return (tp.to_send);
+	}
+	// AKI SEPARA BUF LA LINEA como en ft_printf
 	tp.to_send = ft_strjoin(tp.to_send, buf);
 	free(buf);
 	if (!ft_strchr(tp.to_send, '\n'))
 		get_next_line(fd);
+
 	return (tp.to_send);
 }
 
-int main(void)
+int main()
 {
 	int fd;
-	char *res;
+	char *line;
 
 	fd = open("../test/text.txt", O_RDONLY);
-	if (fd)
+	while (1)
 	{
-		printf("File was opened\n");
+		line = get_next_line(fd);
+		if (line == NULL)
+			break;
+		printf("%s", line);
+		free(line);
 	}
-	while ((res = get_next_line(fd)) != NULL)
-		printf("res:\e[3;33m\n%s\e[0m\n", res);
-	// res = get_next_line(fd);
+	return (0);
 }
+
+// int main(void)
+// {
+// 	int fd;
+// 	char *res;
+
+// 	fd = open("../test/text.txt", O_RDONLY);
+// 	if (fd)
+// 	{
+// 		printf("File was opened\n");
+// 	}
+// 	while ((res = get_next_line(fd)) != NULL)
+// 		printf("res:\e[3;33m\n%s\e[0m\n", res);
+// 	// res = get_next_line(fd);
+// }
