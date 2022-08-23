@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_struct.c                                      :+:      :+:    :+:   */
+/*   freed_malloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/21 10:41:15 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/22 12:33:11 by nmota-bu         ###   ########.fr       */
+/*   Created: 2022/08/21 22:33:10 by nmota-bu          #+#    #+#             */
+/*   Updated: 2022/08/21 22:50:51 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,31 @@
 /* ╚════════════════════════════════════════════════════════════════════════╝ */
 
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
-typedef struct s_foo {
-	int	a;
-	char	*b;
-} t_foo;
-
-int main(void)
-
+void func2(char *str)
 {
-	t_foo mystruct;
-	mystruct.a = 1;
-	mystruct.b = malloc(12);
+	free(str);
+}
 
-	strcpy(mystruct.b, "42 Barcelona");
+void func1(char *str)
+{
+	func2(str);
+}
 
-	/* do something clever with mystruct.b */
-	printf("len: %lu\n%s\n", strlen(mystruct.b), mystruct.b);
-
-  free(mystruct.b);
-  return 0;
+int main()
+{
+	char *str;
+	str=(char *) malloc(12);
+	if(!str)
+		return (-1);
+	func1(str);
+	if(str)
+   {
+	   //	   do something;   // if condition to check whether str is freed
+	   str = "42 Barcelona";
+	   printf("%s\n",str);
+   }
+	return (strlen(str));
 }

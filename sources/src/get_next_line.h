@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:32:47 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/18 17:32:50 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/08/22 16:28:36 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strchr(const char *s, int c);
 
 typedef struct s_print
 {
-	char *to_send;
+	char *content;
 } t_print;
 
 char	*get_next_line(int fd);

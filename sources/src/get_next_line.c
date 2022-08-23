@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/18 17:30:19 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/08/22 16:31:14 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,22 @@
 
 static void	ft_free_tp(t_print *tp)
 {
-	// free(tp->to_send);
-	printf("%s",tp->to_send);
+	// free(tp->content);
+	printf("%s",tp->content);
 	return;
 }
+
+static t_print *ft_new_content(char *content)
+{
+	t_print *new;
+
+	new = (t_print *)malloc(sizeof(t_print) * 1);
+	if (!new)
+		return (NULL);
+	new->content = content;
+	return(new);
+}
+
 
 char *get_next_line(int fd)
 {
@@ -37,8 +49,12 @@ char *get_next_line(int fd)
 	static t_print tp;
 	char *buf;
 
-	if (!tp.to_send)
-		tp.to_send = ft_strdup("");
+	t_print	*pre_content;
+
+
+
+	if (!tp.content)
+		tp.content = ft_strdup("");
 
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
@@ -46,19 +62,20 @@ char *get_next_line(int fd)
 	read(fd, buf, BUFFER_SIZE);
 	if (*buf == '\0')
 	{
-		// tp.to_send = ft_strdup("");
-		// free(tp.to_send);
+		// tp.content = ft_strdup("");
+		// free(tp.content);
 		ft_free_tp(&tp);
 		return (NULL);
-		// return (tp.to_send);
+		// return (tp.content);
 	}
 	// AKI SEPARA BUF LA LINEA como en ft_printf
-	tp.to_send = ft_strjoin(tp.to_send, buf);
+	pre_content = ft_new_content(buf);
+	tp.content = ft_strjoin(tp.content, buf);
 	free(buf);
-	if (!ft_strchr(tp.to_send, '\n'))
+	if (!ft_strchr(tp.content, '\n'))
 		get_next_line(fd);
 
-	return (tp.to_send);
+	return (tp.content);
 }
 
 int main()
