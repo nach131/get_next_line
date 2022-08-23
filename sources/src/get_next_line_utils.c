@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:30 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/18 17:30:32 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/08/23 14:36:21 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,48 @@ int	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
+}
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	if (size > 0)
+	{
+		while (src[i] && i < (size - 1))
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = 0;
+	}
+	while (src[i])
+		i++;
+	return (i);
+}
+
+char *ft_char_to_str(const char *s, int n)
+{
+    if (!s)
+        return NULL;
+    int i;
+    char *res = NULL;
+    res = (char *)malloc(n + 1);
+    if (!res)
+    {
+       // marcar algun error
+			return NULL;
+    }
+    else
+    {
+        i = 0;
+        while (i < n)
+        {
+            res[i] = s[i];
+            i++;
+        }
+        res[i] = '\0';
+        return res;
+    }
+	free(res);
 }

@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:32:47 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/22 16:28:36 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/08/23 13:18:35 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
 char	*ft_strchr(const char *s, int c);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+char *ft_char_to_str(const char *s, int n);
+
 
 typedef struct s_print
 {

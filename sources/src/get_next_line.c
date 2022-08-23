@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/22 16:31:14 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/08/23 15:58:34 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define BUFFER_SIZE 42
+#define BUFFER_SIZE 12
 //
 #include "get_next_line.h"
-
-static void	ft_free_tp(t_print *tp)
-{
-	// free(tp->content);
-	printf("%s",tp->content);
-	return;
-}
 
 static t_print *ft_new_content(char *content)
 {
@@ -39,22 +32,59 @@ static t_print *ft_new_content(char *content)
 	if (!new)
 		return (NULL);
 	new->content = content;
-	return(new);
+	return (new);
 }
 
+static void ft_read_text(t_print **tp, t_print **res, char *buf)
+{
+	char *before;
+	char *after;
+	int len;
+	t_print *tp_aux;
+	t_print *tp_res;
+	const char *str;
+
+	tp_res = *res;
+	tp_aux = *tp;
+
+	if (ft_strlen(tp_aux->content))
+	{
+		tp_res->content = ft_strjoin(tp_res->content, tp_aux->content);
+	}
+	else if (buf && ft_strlen(tp_aux->content))
+	{
+		write(1, "si", 2);
+	}
+
+//===========copia toda la linea y el resto lo pone en tp========================================
+	before = ft_strchr(buf, '\n');
+	if (before) // comprobamos que en el buffer hay mínimo una linea y la add a tp->content
+	{
+		len = before - buf;
+		// pasar la linea a const char
+		str = ft_char_to_str(buf, len);
+		tp_res->content = ft_strjoin(tp_res->content, str);
+		tp_res->content = ft_strjoin(tp_res->content, "\n");
+	}
+	if (before && (ft_strlen(buf) > (before - buf)))
+	{
+		tp_aux->content = ft_strjoin(tp_aux->content, before);
+	}
+//===========================================================================================
+}
 
 char *get_next_line(int fd)
 {
 	// static char *readed;
-	static t_print tp;
+	static t_print *tp;
+	t_print *res;
 	char *buf;
 
-	t_print	*pre_content;
+	res = ft_new_content("");
 
-
-
-	if (!tp.content)
-		tp.content = ft_strdup("");
+	if (!tp)
+		tp = ft_new_content("");
+	// tp.content = ft_strdup("");
 
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
@@ -63,19 +93,16 @@ char *get_next_line(int fd)
 	if (*buf == '\0')
 	{
 		// tp.content = ft_strdup("");
-		// free(tp.content);
-		ft_free_tp(&tp);
 		return (NULL);
-		// return (tp.content);
 	}
+	ft_read_text(&tp, &res, buf);
 	// AKI SEPARA BUF LA LINEA como en ft_printf
-	pre_content = ft_new_content(buf);
-	tp.content = ft_strjoin(tp.content, buf);
+	// tp.content = ft_strjoin(tp.content, buf);
 	free(buf);
-	if (!ft_strchr(tp.content, '\n'))
+	if (!ft_strchr(tp->content, '\n'))
 		get_next_line(fd);
 
-	return (tp.content);
+	return (res->content);
 }
 
 int main()
