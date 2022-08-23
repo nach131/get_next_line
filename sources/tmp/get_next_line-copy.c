@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/23 18:32:21 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/08/23 17:56:56 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,21 @@ static t_print *ft_new_content(char *content)
 	return (new);
 }
 
-static void ft_search(t_print *res, t_print *tp, char *buf)
+static void ft_search(t_print *res, t_print *tp,char *buf)
 {
+	// write(1,"@",1);
 	int len;
 	char *before;
 	const char *str;
 
 	before = ft_strchr(buf, '\n');
-
 	if (before)
 	{
 		len = before - buf;
 		str = ft_char_to_str(buf, len);
 		res->content = ft_strjoin(res->content, str);
-		res->content = ft_strjoin(res->content, "\n");
-		before++;
 	}
-	if (before && (ft_strlen(buf) > (before - buf)))
+		if (before && (ft_strlen(buf) > (before - buf)))
 	{
 		tp->content = ft_strjoin(tp->content, before);
 	}
@@ -59,23 +57,20 @@ static void ft_search(t_print *res, t_print *tp, char *buf)
 
 static void ft_read_text(t_print **tp, t_print **res, char *buf)
 {
-	// char *before;
-	// char *after;
-	// int len;
+	char *before;
+	char *after;
+	int len;
 	t_print *tp_aux;
-	// t_print *tp_res;
-	// const char *str;
+	t_print *tp_res;
+	const char *str;
 
-	// tp_res = *res;
+	tp_res = *res;
 	tp_aux = *tp;
 
 	if (ft_strlen(tp_aux->content))
 	{
-		// write(1, "@", 1);
-		ft_search(*res, *tp, tp_aux->content);
-
-		// tp_res->content = ft_strjoin(tp_res->content, tp_aux->content);
-		// before = ft_strchr(tp_aux->content, '\n');
+		tp_res->content = ft_strjoin(tp_res->content, tp_aux->content);
+		before = ft_strchr(tp_aux->content, '\n');
 	}
 
 	//===========copia toda la linea y el resto lo pone en tp======================================

@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 10:41:15 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/22 12:33:11 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/08/23 17:08:32 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
 
 typedef struct s_foo {
 	int	a;
@@ -30,10 +31,16 @@ int main(void)
 	mystruct.a = 1;
 	mystruct.b = malloc(12);
 
-	strcpy(mystruct.b, "42 Barcelona");
+	strcpy(mystruct.b, "42\n");
 
 	/* do something clever with mystruct.b */
-	printf("len: %lu\n%s\n", strlen(mystruct.b), mystruct.b);
+	// printf("len: %lu\n%s\n", strlen(mystruct.b), mystruct.b);
+
+	while(*mystruct.b != '\n') // ASI SI
+	{
+		mystruct.b++;
+		mystruct.a++;
+	}
 
   free(mystruct.b);
   return 0;
