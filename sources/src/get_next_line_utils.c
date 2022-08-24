@@ -88,6 +88,23 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
+// char	*ft_strjoin(char const *s1, char const *s2)
+// {
+// 	char	*res;
+// 	size_t	len_s1;
+// 	size_t	len_s2;
+
+// 	len_s1 = ft_strlen(s1);
+// 	len_s2 = ft_strlen(s2);
+// 	res = (char *)malloc((len_s1 + len_s2 + 1) * sizeof(*res));
+// 	if (!res)
+// 		return (0);
+// 	ft_memcpy(res, s1, len_s1);
+// 	ft_memcpy(res + len_s1, s2, len_s2);
+// 	res[len_s1 + len_s2] = '\0';
+// 	return (res);
+// }
+
 int	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -140,4 +157,16 @@ char *ft_char_to_str(const char *s, int n)
         return res;
     }
 	free(res);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] != '\0' && i < n && s1[i] == s2[i])
+		i++;
+	if (i != n)
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	return (0);
 }

@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define BUFFER_SIZE 21
+#define BUFFER_SIZE 1
 
 #include "get_next_line.h"
 
@@ -35,7 +35,7 @@ static t_print *ft_new_content(char *content)
 	return (new);
 }
 
-static void ft_search(t_print *res, t_print *tp, char *buf)
+static void ft_search(t_print *res, t_print *tp, char *buf, t_flag *flag)
 {
 	int len;
 	char *before;
@@ -43,15 +43,22 @@ static void ft_search(t_print *res, t_print *tp, char *buf)
 
 	before = ft_strchr(buf, '\n');
 
-	if (before)
+	if (before && ft_strlen(before) > 1)
 	{
 		len = before - buf;
-		str = ft_char_to_str(buf, len);
+		str = ft_char_to_str(buf, len); // podria sumar '\n' si no tiene
 		res->content = ft_strjoin(res->content, str);
 		res->content = ft_strjoin(res->content, "\n");
 		before++;
+		flag->readed = 1;
 	}
-	if (before && (ft_strlen(buf) > (before - buf)))
+	else
+	{
+		tp->content = ft_strjoin(tp->content, buf);
+		flag->readed = 1;
+		// AKI borrar lo que se junto
+	}
+	if (before && (ft_strlen(buf) > (before - buf)) && flag->readed == 0)
 	{
 		if (ft_strlen(tp->content) > 0)
 		{
@@ -63,35 +70,43 @@ static void ft_search(t_print *res, t_print *tp, char *buf)
 			tp->content++;
 		}
 		// AKI se mezlan los dos tp->content
-		tp->content = ft_strjoin(tp->content, before);
+		// tp->content = ft_strjoin(tp->content, before);
 	}
 }
 
-static void ft_read_text(t_print **tp, t_print **res, char *buf)
+static void ft_read_text(t_print **tp, t_print **res, char *buf, t_flag *flag)
 {
 	t_print *tp_aux;
 	tp_aux = *tp;
 
-	if (ft_strlen(tp_aux->content))
+	if (flag->readed == 1)
 	{
-		ft_search(*res, *tp, tp_aux->content);
+		ft_search(*res, *tp, buf, flag);
 	}
-
-	ft_search(*res, *tp, buf);
+	else if (ft_strlen(tp_aux->content))
+	{
+		ft_search(*res, *tp, tp_aux->content, flag);
+	}
+	if (!flag->readed)
+		ft_search(*res, *tp, buf, flag);
+	if (ft_strchr(tp_aux->content, '\n'))
+	{
+		(*res)->content = ft_strjoin((*res)->content, tp_aux->content);
+		flag->readed = 0;
+	}
 }
 
 char *get_next_line(int fd)
 {
-	// static char *readed;
 	static t_print *tp;
 	t_print *res;
+	static t_flag flag;
 	char *buf;
 
 	res = ft_new_content("");
 
 	if (!tp)
 		tp = ft_new_content("");
-	// tp.content = ft_strdup("");
 
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
@@ -99,12 +114,10 @@ char *get_next_line(int fd)
 	read(fd, buf, BUFFER_SIZE);
 	if (*buf == '\0')
 	{
-		// tp.content = ft_strdup("");
 		return (NULL);
 	}
-	ft_read_text(&tp, &res, buf);
+	ft_read_text(&tp, &res, buf, &flag);
 	// AKI SEPARA BUF LA LINEA como en ft_printf
-	// tp.content = ft_strjoin(tp.content, buf);
 	free(buf);
 	if (!ft_strchr(res->content, '\n'))
 		get_next_line(fd);
@@ -124,7 +137,6 @@ int main()
 		if (line == NULL)
 			break;
 		printf("%s", line);
-		free(line);
 	}
 	return (0);
 }
