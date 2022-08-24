@@ -35,6 +35,28 @@ static t_print *ft_new_content(char *content)
 	return (new);
 }
 
+void	del(void *tmp)
+{
+   free(tmp);
+}
+
+void	ft_clear(t_print **tp, void (*del)(void*))
+{
+	t_print	*l_aux;
+
+	if (tp)
+	{
+		while (*tp)
+		{
+			// l_aux = (*tp)->next;
+			del((*tp)->content);
+			free(*tp);
+			// *tp = l_aux;
+		}
+			*tp = l_aux;
+	}
+}
+
 static void ft_search(t_print *res, t_print *tp, char *buf, t_flag *flag)
 {
 	int len;
@@ -76,22 +98,20 @@ static void ft_search(t_print *res, t_print *tp, char *buf, t_flag *flag)
 
 static void ft_read_text(t_print **tp, t_print **res, char *buf, t_flag *flag)
 {
-	t_print *tp_aux;
-	tp_aux = *tp;
 
 	if (flag->readed == 1)
 	{
 		ft_search(*res, *tp, buf, flag);
 	}
-	else if (ft_strlen(tp_aux->content))
+	else if (ft_strlen((*tp)->content))
 	{
-		ft_search(*res, *tp, tp_aux->content, flag);
+		ft_search(*res, *tp, (*tp)->content, flag);
 	}
 	if (!flag->readed)
 		ft_search(*res, *tp, buf, flag);
-	if (ft_strchr(tp_aux->content, '\n'))
+	if (ft_strchr((*tp)->content, '\n'))
 	{
-		(*res)->content = ft_strjoin((*res)->content, tp_aux->content);
+		(*res)->content = ft_strjoin((*res)->content, (*tp)->content);
 		flag->readed = 0;
 	}
 }
@@ -121,7 +141,8 @@ char *get_next_line(int fd)
 	free(buf);
 	if (!ft_strchr(res->content, '\n'))
 		get_next_line(fd);
-
+	// vaciar tp y free
+	ft_clear(&tp, del);
 	return (res->content);
 }
 
