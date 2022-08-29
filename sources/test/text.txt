@@ -1,2 +1,4 @@
-un
-do
+uno
+dos
+tres
+cuatro

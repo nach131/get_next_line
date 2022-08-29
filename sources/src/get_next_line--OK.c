@@ -62,9 +62,7 @@ static void ft_search(t_print *res, t_print *tp, char *buf, t_flag *flag)
 	int len;
 	char *before;
 	const char *str;
-	// Gracias a Alba
-	// condicion si tp tiene entonces no hace dos difertes...?
-	// hay comprobar....
+
 	before = ft_strchr(buf, '\n');
 	// si la primera pasada encuentra una linea
 	if (before && ft_strlen(before) > 1)
@@ -140,16 +138,6 @@ char *get_next_line(int fd)
 	size = read(fd, buf, BUFFER_SIZE);
 	if (*buf == '\0')
 	{
-		if (size)
-			return (NULL);
-		if (tp->content)
-		{
-			res->content = ft_strjoin(res->content, tp->content);
-			tp->content = (NULL);
-			free(buf);
-			return (res->content);
-		}
-		free(buf);
 		return (NULL);
 	}
 	ft_read_text(&tp, &res, buf, &flag);
@@ -171,6 +159,7 @@ int main()
 	int fd;
 	char *line;
 
+	fd = open("../test/text.txt", O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);

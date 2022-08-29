@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/27 19:00:13 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/08/29 19:26:38 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define BUFFER_SIZE 1
+#define BUFFER_SIZE 3
 
 #include "get_next_line.h"
 
@@ -62,7 +62,9 @@ static void ft_search(t_print *res, t_print *tp, char *buf, t_flag *flag)
 	int len;
 	char *before;
 	const char *str;
-
+	// Gracias a Alba
+	// condicion si tp tiene entonces no hace dos difertes...?
+	// hay comprobar....
 	before = ft_strchr(buf, '\n');
 	// si la primera pasada encuentra una linea
 	if (before && ft_strlen(before) > 1)
@@ -138,6 +140,18 @@ char *get_next_line(int fd)
 	size = read(fd, buf, BUFFER_SIZE);
 	if (*buf == '\0')
 	{
+		if (tp->content)
+		{
+			res->content = ft_strjoin(res->content, tp->content);
+			tp->content = (NULL);
+			free(buf);
+			return (res->content);
+		}
+		else if (size == 0)
+		{
+			free(buf);
+			return (NULL);
+		}
 		return (NULL);
 	}
 	ft_read_text(&tp, &res, buf, &flag);
