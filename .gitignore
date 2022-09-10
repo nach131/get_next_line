@@ -3,6 +3,7 @@
 *.swo
 *.swp
 *.out
+*.out.*
 *.swm
 *.swk
 *.swl

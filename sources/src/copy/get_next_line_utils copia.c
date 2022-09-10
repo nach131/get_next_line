@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:30 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/08 16:59:02 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/04 12:35:38 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,92 +77,90 @@ char *ft_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-void *ft_put_line(const char *s, int n)
-{
-	char *tmp = NULL;
-
-	tmp = (char *)malloc(n);
-	if (!tmp)
-		return NULL;
-	else
-	{
-		int i = 0;
-		while (i < n)
-		{
-			tmp[i] = s[i];
-			i++;
-		}
-		tmp[i] = '\0';
-	}
-	return (tmp);
-}
-
-int ft_tp_line(t_print *tp, char **line)
+int ft_tp_line(t_print *tp)
 {
 	char *str;
 	int len;
 	int i;
 
 	str = ft_strchr(tp->content, '\n');
-	if (str && !*line)
+	if (str && !tp->line)
 	{
-		len = str - tp->content + 1;
-		*line = ft_put_line(tp->content, len);
-		while (len)
+		len = str - tp->content;
+		tp->line = malloc(len + 1);
+		if (!tp->line)
+			return (0);
+		i = 0;
+		while (i <= len)
+		{
+			tp->line[i] = tp->content[i];
+			i++;
+		}
+		tp->line[i] = '\0';
+		while (i)
 		{
 			tp->content++;
-			len--;
+			i--;
 		}
 	}
+	else if (str && tp->line)
+	{
+		char *tmp;
+		int len_tp = str - tp->content;
+		int len_line = strlen(tp->line);
 
-	// puedo poner los else if siguiente en un función con if dentro
-	else if (str && *line) // si hay linea dentro de tp->content
-	{
-		int len_tp = str - tp->content + 1;
-		int len_line = strlen(*line);
-		char *tmp_tp;
-		tmp_tp = ft_put_line(tp->content, len_tp);
-		str = ft_put_line(*line, len_line);
-		free(*line);
-		*line = (NULL);
-		*line = ft_strjoin(str, tmp_tp);
-		while (len_tp)
+		tmp = ft_strjoin("", tp->line);
+		int i;
+		int j;
+		tp->line = (NULL);
+		free(tp->line);
+		tp->line = malloc(len_tp + len_line + 1);
+		i = 0;
+		while (i < len_line)
+		{
+			tp->line[i] = tmp[i];
+			i++;
+		}
+		j = 0;
+		while (tp->content[j] != '\n')
+		{
+			tp->line[i] = tp->content[j];
+			i++;
+			j++;
+			// tp->content++;
+		}
+		tp->line[i] = '\n';
+		j++;
+		while (j)
 		{
 			tp->content++;
-			len_tp--;
+			j--;
 		}
-		free(tmp_tp);
-		free(str);
-	}
-	else if (tp->content && *line != NULL)
-	{
-		int len_tp = ft_strlen(tp->content);
-		len = ft_strlen(*line);
-		str = ft_put_line(*line, len);
-		free(*line);
-		*line = (NULL);
-		*line = ft_strjoin(str, tp->content);
-		while (len_tp)
-		{
-			tp->content++;
-			len_tp--;
-		}
-		free(str);
+		tmp = (NULL);
+		free(tmp);
 	}
 	else
 	{
-		len = ft_strlen(tp->content);
-		*line = ft_put_line(tp->content, len);
-		while (len)
-		{
-			tp->content++;
-			len--;
-		}
+		ft_tp(tp);
 	}
-	if (!ft_strlen(tp->content))
-	{
-		// free(tp->content);
-		tp->content = (NULL);
-	}
+	if (ft_strlen(tp->content) && ft_strchr(tp->line, '\n'))
+		return (1);
+	tp->content = (NULL);
+	free(tp->content);
+	return (1);
+}
+
+int ft_tp(t_print *tp)
+{
+	char *tmp;
+
+	if (tp->line == NULL)
+		tp->line = "";
+	tmp = ft_strjoin("", tp->line);
+	tp->line = (NULL);
+	free(tp->line);
+	tp->line = ft_strjoin(tmp, tp->content);
+	tmp = (NULL);
+	free(tmp);
 	return (1);
 }

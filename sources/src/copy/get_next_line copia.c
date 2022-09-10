@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/08 17:00:18 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/04 12:51:57 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@
 
 #include "get_next_line.h"
 
-static int ft_buffer(int fd, t_print *tp, char **line)
+static int ft_buffer(int fd, t_print *tp)
 {
 	if (!tp->content)
 	{
-
-		tp->content = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		// tp->content = calloc(BUFFER_SIZE + 1, sizeof(char));
+		tp->content = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (!tp->content)
 			return (0);
 		tp->size_buf = read(fd, tp->content, BUFFER_SIZE);
@@ -41,43 +39,30 @@ static int ft_buffer(int fd, t_print *tp, char **line)
 		}
 	}
 	if (tp->content)
-		ft_tp_line(tp, (&(*line)));
-	if (!tp->size_buf && !*line) // ya no hay nada
+		ft_tp_line(tp);
+	if (!tp->size_buf && !tp->line) // ya no hay nada
 		return (0);
-	if (!tp->content && !tp->size_buf && *line) // la ultima fila
+	if (!tp->content && !tp->size_buf && tp->line) // la ultima fila
 		return (0);
-	else if (!ft_strchr(*line, '\n'))
-		ft_buffer(fd, tp, &(*line));
+	else if (!ft_strchr(tp->line, '\n'))
+		ft_buffer(fd, tp);
 	return (1);
-}
-
-t_print *ft_lstnew(void *content)
-{
-	t_print *new;
-
-	new = (t_print *)malloc(sizeof(t_print) * 1);
-	if (!new)
-		return (NULL);
-	new->content = content;
-	return (new);
 }
 
 char *get_next_line(int fd)
 {
-	static t_print *tp;
-	if (!tp)
-		tp = (t_print *)malloc(sizeof(t_print) * 1);
-	char *line;
+	static t_print tp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
+	tp.line = (NULL);
+	free(tp.line);
+	ft_buffer(fd, &tp);
+	if (tp.line)
+		return (tp.line);
+	else if (!tp.line && !tp.size_buf)
 		return (NULL);
-	line = (NULL);
-	ft_buffer(fd, &(*tp), &line);
-	if (line)
-		return (line);
-	else if (!line && !((*tp)).size_buf)
-		return (NULL);
-	return (line);
+	return (tp.line);
 }
 
 int main()
@@ -96,9 +81,7 @@ int main()
 		else if (line)
 		{
 			printf("%s", line);
-			// printf("----------------\n");
-			if (line)
-				free(line);
+			free(line);
 		}
 	}
 	return (1);

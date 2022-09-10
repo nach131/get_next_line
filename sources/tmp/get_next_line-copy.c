@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/08/23 17:56:56 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/08/29 20:29:08 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define BUFFER_SIZE 21
-//
+#define BUFFER_SIZE 1
+
 #include "get_next_line.h"
 
 static t_print *ft_new_content(char *content)
@@ -35,96 +35,148 @@ static t_print *ft_new_content(char *content)
 	return (new);
 }
 
-static void ft_search(t_print *res, t_print *tp,char *buf)
+
+
+static void ft_search(t_print *res, t_print *tp, char *buf, t_flag *flag)
 {
-	// write(1,"@",1);
 	int len;
 	char *before;
 	const char *str;
-
+	// Gracias a Alba
+	// condicion si tp tiene entonces no hace dos difertes...?
+	// hay comprobar....
 	before = ft_strchr(buf, '\n');
-	if (before)
+	// si la primera pasada encuentra una linea
+	if (before && ft_strlen(before) > 1)
 	{
 		len = before - buf;
-		str = ft_char_to_str(buf, len);
+		str = ft_char_to_str(buf, len); // podría sumar '\n' si no tiene
 		res->content = ft_strjoin(res->content, str);
+		res->content = ft_strjoin(res->content, "\n");
+		before++;
+		flag->readed = 1;
 	}
-		if (before && (ft_strlen(buf) > (before - buf)))
+	// lo que encuentra va a tp a esperar la segunda lectura
+	else
 	{
-		tp->content = ft_strjoin(tp->content, before);
+		tp->content = ft_strjoin(tp->content, buf);
+		flag->readed = 1;
+	}
+	if (before && (ft_strlen(buf) > (before - buf)) && flag->readed == 0)
+	{
+		if (ft_strlen(tp->content) > 0)
+		{
+			while (len)
+			{
+				tp->content++;
+				len--;
+			}
+			tp->content++;
+		}
+		// AKI se mezclan los dos tp->content
+		// tp->content = ft_strjoin(tp->content, before);
 	}
 }
 
-static void ft_read_text(t_print **tp, t_print **res, char *buf)
+static void ft_read_text(t_print **tp, t_print **res, char *buf, t_flag *flag)
 {
-	char *before;
-	char *after;
-	int len;
-	t_print *tp_aux;
-	t_print *tp_res;
-	const char *str;
 
-	tp_res = *res;
-	tp_aux = *tp;
-
-	if (ft_strlen(tp_aux->content))
+	if (flag->readed == 1)
 	{
-		tp_res->content = ft_strjoin(tp_res->content, tp_aux->content);
-		before = ft_strchr(tp_aux->content, '\n');
+		ft_search(*res, *tp, buf, flag);
 	}
+	else if (ft_strlen((*tp)->content))
+	{
+		ft_search(*res, *tp, (*tp)->content, flag);
+	}
+	if (!flag->readed)
+		ft_search(*res, *tp, buf, flag);
+	// esto de ABAJO tendría que ir ft_searh
+	// si en tp hay /n volver a enviar a search para que junte...? y quitar de  aki..?
+	if (ft_strchr((*tp)->content, '\n'))
+	{
+		(*res)->content = ft_strjoin((*res)->content, (*tp)->content);
+		(*tp)->content = "";
+		flag->readed = 0;
+	}
+}
 
-	//===========copia toda la linea y el resto lo pone en tp======================================
+static void ft_buffer(int fd, t_print **tp, t_print **res, t_flag *flag)
+{
+	char *buf;
+	ssize_t size;
 
-	ft_search(*res, *tp, buf);
-	// ft_search(*res, *tp, tp_aux->content);
-
-	//===========================================================================================
-	// before = ft_strchr(buf, '\n');
-	// if (before) // comprobamos que en el buffer hay mínimo una linea y la add a tp->content
-	// {
-	// 	len = before - buf;
-	// 	// pasar la linea a const char
-	// 	str = ft_char_to_str(buf, len);
-	// 	tp_res->content = ft_strjoin(tp_res->content, str);
-	// 	tp_res->content = ft_strjoin(tp_res->content, "\n");
-	// }
-	// if (before && (ft_strlen(buf) > (before - buf)))
-	// {
-	// 	tp_aux->content = ft_strjoin(tp_aux->content, before);
-	// }
-	//===========================================================================================
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return;
+	size = read(fd, buf, BUFFER_SIZE);
+	if (*buf == '\0')
+	{
+		if ((*tp)->content)
+		{
+			(*res)->content = ft_strjoin((*res)->content, (*tp)->content);
+			(*tp)->content = (NULL);
+			free(buf);
+			// return ((*res)->content);
+		}
+		else if (size == 0)
+		{
+			free(buf);
+			return;
+		}
+		return;
+	}
+	// ft_read_text(&tp, &res, buf, &flag);
+	ft_read_text(tp, res, buf, flag);
+	free(buf);
 }
 
 char *get_next_line(int fd)
 {
-	// static char *readed;
 	static t_print *tp;
 	t_print *res;
-	char *buf;
+	static t_flag flag;
+	// char *buf;
+	// ssize_t size;
 
 	res = ft_new_content("");
 
 	if (!tp)
 		tp = ft_new_content("");
-	// tp.content = ft_strdup("");
 
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (NULL);
-	read(fd, buf, BUFFER_SIZE);
-	if (*buf == '\0')
+	ft_buffer(fd, &res, &tp, &flag);
+	// buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	// if (!buf)
+	// 	return (NULL);
+	// size = read(fd, buf, BUFFER_SIZE);
+	// if (*buf == '\0')
+	// {
+	// 	if (tp->content)
+	// 	{
+	// 		res->content = ft_strjoin(res->content, tp->content);
+	// 		tp->content = (NULL);
+	// 		free(buf);
+	// 		return (res->content);
+	// 	}
+	// 	else if (size == 0)
+	// 	{
+	// 		free(buf);
+	// 		return (NULL);
+	// 	}
+	// 	return (NULL);
+	// }
+	// ft_read_text(&tp, &res, buf, &flag);
+	if (!ft_strchr(res->content, '\n') && flag.readed == 0)
 	{
-		// tp.content = ft_strdup("");
-		return (NULL);
-	}
-	ft_read_text(&tp, &res, buf);
-	// AKI SEPARA BUF LA LINEA como en ft_printf
-	// tp.content = ft_strjoin(tp.content, buf);
-	free(buf);
-	if (!ft_strchr(res->content, '\n'))
 		get_next_line(fd);
+	}
 
 	return (res->content);
+
+	// vaciar tp y free
+	// free(tp);
+	// free(res);
+	// ft_clear(&tp, del);
 }
 
 int main()
@@ -139,9 +191,8 @@ int main()
 		if (line == NULL)
 			break;
 		printf("%s", line);
-		free(line);
 	}
-	return (0);
+	return (1);
 }
 
 // int main(void)
