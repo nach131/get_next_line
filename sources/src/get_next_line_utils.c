@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:30 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/08 16:59:02 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/10 15:48:50 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,64 @@
 
 #include "get_next_line.h"
 #include <string.h>
+
+size_t ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t i;
+
+	i = 0;
+	if (size > 0)
+	{
+		while (src[i] && i < (size - 1))
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = 0;
+	}
+	while (src[i])
+		i++;
+	return (i);
+}
+
+char *ft_strdup(const char *s1)
+{
+	char *res;
+	size_t len;
+	int i;
+
+	len = ft_strlen(s1) + 1;
+	if (!s1)
+		return (NULL);
+	res = (char *)malloc(len * sizeof(*s1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
+
+char *ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char *res;
+	size_t len_s;
+
+	len_s = ft_strlen(s);
+	if (len > (len_s - start))
+		len = len_s - start;
+	if (start > len_s)
+		return (ft_strdup(""));
+	res = (char *)malloc((len + 1) * sizeof(*s));
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, &((char *)s)[start], (len + 1));
+	return (res);
+}
 
 void *ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -108,11 +166,14 @@ int ft_tp_line(t_print *tp, char **line)
 	{
 		len = str - tp->content + 1;
 		*line = ft_put_line(tp->content, len);
+		// str = ft_substr(tp->content, len, BUFFER_SIZE);
 		while (len)
 		{
-			tp->content++;
+			// tp->content++;
+			tp->content[len] = '\0';
 			len--;
 		}
+		write(1, "@", 1);
 	}
 
 	// puedo poner los else if siguiente en un función con if dentro
@@ -128,13 +189,15 @@ int ft_tp_line(t_print *tp, char **line)
 		*line = ft_strjoin(str, tmp_tp);
 		while (len_tp)
 		{
-			tp->content++;
+			// tp->content++;
+			tp->content[len_tp] = '\0';
+
 			len_tp--;
 		}
 		free(tmp_tp);
 		free(str);
 	}
-	else if (tp->content && *line != NULL)
+	else if (*tp->content && *line != NULL)
 	{
 		int len_tp = ft_strlen(tp->content);
 		len = ft_strlen(*line);
@@ -144,7 +207,9 @@ int ft_tp_line(t_print *tp, char **line)
 		*line = ft_strjoin(str, tp->content);
 		while (len_tp)
 		{
-			tp->content++;
+			// tp->content++;
+			tp->content[len_tp] = '\0';
+			// tp->content++;
 			len_tp--;
 		}
 		free(str);
@@ -155,14 +220,16 @@ int ft_tp_line(t_print *tp, char **line)
 		*line = ft_put_line(tp->content, len);
 		while (len)
 		{
-			tp->content++;
+			tp->content[len] = '\0';
+
+			// tp->content++;
 			len--;
 		}
 	}
 	if (!ft_strlen(tp->content))
 	{
 		// free(tp->content);
-		tp->content = (NULL);
+		// tp->content = (NULL);
 	}
 	return (1);
 }

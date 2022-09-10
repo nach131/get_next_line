@@ -25,7 +25,31 @@
         "isDefault": true
       },
       "detail": "compilador: /usr/bin/gcc"
+    },
+    {
+      "type": "cppbuild",
+      "label": "TMP",
+      "command": "/usr/bin/gcc",
+      "args": [
+        "-g3",
+        // "-Wall -Wextra -Werror",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}.out"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "compilador: /usr/bin/gcc"
     }
+    
   ],
   "version": "2.0.0"
 }

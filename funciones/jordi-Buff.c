@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 15:35:25 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/10 13:03:23 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:49:30 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define BUFFER_SIZE 10
 
 typedef struct s_print
 {
-	char content[BUFFER_SIZE];
-	// char *line;
+	char *content;
+	char *line;
 } t_print;
 
 static int ft_join(char *str, t_print *tp)
@@ -85,8 +84,6 @@ static int ft_line(char *str, t_print *tp, int len)
 static char *get_next_line()
 {
 	static t_print tp;
-	tp = (struct tp *)malloc(sizeof(struct tp));
-
 	int len;
 	char *str = "Bar\n";
 	ft_join(str, &tp);

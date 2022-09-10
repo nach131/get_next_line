@@ -6,12 +6,14 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:32:47 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/04 13:45:21 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/10 13:44:05 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 #define GET_NEXT_LINE_H
+
+#define BUFFER_SIZE 5
 
 #include <sys/types.h>
 #include <sys/uio.h>
@@ -20,7 +22,7 @@
 
 typedef struct s_print
 {
-	char *content;
+	char content[BUFFER_SIZE];
 	// char *line;
 	ssize_t size_buf;
 } t_print;
