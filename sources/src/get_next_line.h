@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:32:47 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/11 13:45:17 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/11 15:40:55 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define GET_NEXT_LINE_H
 
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 15
+#define BUFFER_SIZE 1
 #endif
 
 #include <sys/types.h>
@@ -28,9 +28,6 @@ typedef struct s_print
 	ssize_t size_buf;
 } t_print;
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-char	*ft_strdup(const char *s1);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strchr(const char *s, int c);
 int		ft_strlen(const char *s);

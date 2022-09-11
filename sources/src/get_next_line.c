@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/11 13:59:10 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/11 16:11:07 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static int	ft_buffer(int fd, t_print *tp, char **line)
 	return (1);
 }
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
-	static t_print	*tp;
-	char			*line;
+	static t_print *tp;
+	char *line;
 
 	if (!tp)
 		tp = (t_print *)malloc(sizeof(t_print) * 1);
@@ -52,14 +52,18 @@ char	*get_next_line(int fd)
 	if (line)
 		return (line);
 	else if (!line && !((*tp)).size_buf)
+	{
+		if (tp)
+			free(tp);
 		return (NULL);
+	}
 	return (line);
 }
 
 int	main(void)
 {
 	int		fd;
-	char	*line;
+	char *line;
 
 	fd = open("../test/text-copy.txt", O_RDONLY);
 	if (fd == -1)

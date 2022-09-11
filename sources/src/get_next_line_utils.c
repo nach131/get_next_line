@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:30 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/11 13:56:58 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/11 14:02:13 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,64 +16,6 @@
 
 #include "get_next_line.h"
 #include <string.h>
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size > 0)
-	{
-		while (src[i] && i < (size - 1))
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = 0;
-	}
-	while (src[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	char	*res;
-	size_t	len;
-	int		i;
-
-	len = ft_strlen(s1) + 1;
-	if (!s1)
-		return (NULL);
-	res = (char *)malloc(len * sizeof(*s1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		res[i] = s1[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*res;
-	size_t	len_s;
-
-	len_s = ft_strlen(s);
-	if (len > (len_s - start))
-		len = len_s - start;
-	if (start > len_s)
-		return (ft_strdup(""));
-	res = (char *)malloc((len + 1) * sizeof(*s));
-	if (!res)
-		return (NULL);
-	ft_strlcpy(res, &((char *)s)[start], (len + 1));
-	return (res);
-}
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
