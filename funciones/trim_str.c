@@ -40,7 +40,7 @@ void ft_put(t_print *tp)
 
 	while (i < BUFFER_SIZE)
 	{
-		tp->content[i] = 65 + i;
+		tp->content[i] = 65 + i; // Pongo ABCDE
 		i++;
 	}
 }
