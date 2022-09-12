@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:30 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/04 12:35:38 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/12 12:23:43 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,33 @@
 #include "get_next_line.h"
 #include <string.h>
 
+char *ft_strdup(const char *s1)
+{
+	char *res;
+	size_t	len;
+	int		i;
+
+	len = ft_strlen(s1) + 1;
+	if (!s1)
+		return (NULL);
+	res = (char *)malloc(len * sizeof(*s1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
+
 void *ft_memcpy(void *dest, const void *src, size_t n)
 {
 	char *de;
 	char *sr;
-	size_t i;
+	size_t	i;
 
 	de = (char *)dest;
 	sr = (char *)src;
@@ -40,7 +62,7 @@ void *ft_memcpy(void *dest, const void *src, size_t n)
 
 char *ft_strchr(const char *s, int c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] != (char)c && s[i] != '\0')
@@ -50,9 +72,9 @@ char *ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-int ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s[i] != '\0')
@@ -63,8 +85,8 @@ int ft_strlen(const char *s)
 char *ft_strjoin(char const *s1, char const *s2)
 {
 	char *res;
-	size_t len_s1;
-	size_t len_s2;
+	size_t	len_s1;
+	size_t	len_s2;
 
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
@@ -77,90 +99,100 @@ char *ft_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-int ft_tp_line(t_print *tp)
+void *ft_put_line(const char *s, int n)
 {
-	char *str;
-	int len;
-	int i;
+	char *tmp;
+	int		i;
 
-	str = ft_strchr(tp->content, '\n');
-	if (str && !tp->line)
-	{
-		len = str - tp->content;
-		tp->line = malloc(len + 1);
-		if (!tp->line)
-			return (0);
-		i = 0;
-		while (i <= len)
-		{
-			tp->line[i] = tp->content[i];
-			i++;
-		}
-		tp->line[i] = '\0';
-		while (i)
-		{
-			tp->content++;
-			i--;
-		}
-	}
-	else if (str && tp->line)
-	{
-		char *tmp;
-		int len_tp = str - tp->content;
-		int len_line = strlen(tp->line);
-
-		tmp = ft_strjoin("", tp->line);
-		int i;
-		int j;
-		tp->line = (NULL);
-		free(tp->line);
-		tp->line = malloc(len_tp + len_line + 1);
-		i = 0;
-		while (i < len_line)
-		{
-			tp->line[i] = tmp[i];
-			i++;
-		}
-		j = 0;
-		while (tp->content[j] != '\n')
-		{
-			tp->line[i] = tp->content[j];
-			i++;
-			j++;
-			// tp->content++;
-		}
-		tp->line[i] = '\n';
-		j++;
-		while (j)
-		{
-			tp->content++;
-			j--;
-		}
-		tmp = (NULL);
-		free(tmp);
-	}
+	tmp = (char *)malloc(n);
+	if (!tmp)
+		return (NULL);
 	else
 	{
-		ft_tp(tp);
+		i = 0;
+		while (i < n)
+		{
+			tmp[i] = s[i];
+			i++;
+		}
+		tmp[i] = '\0';
 	}
-	if (ft_strlen(tp->content) && ft_strchr(tp->line, '\n'))
-		return (1);
-	tp->content = (NULL);
-	free(tp->content);
+	return (tmp);
+}
+
+void	ft_tp_str_line(t_print *tp, char **line)
+{
+	char *str;
+	int		len_tp;
+	char *tmp_tp;
+
+	str = ft_strchr(tp->content, '\n');
+	len_tp = str - tp->content + 1;
+	tmp_tp = ft_put_line(tp->content, len_tp);
+	str = ft_strdup(*line);
+	free(*line);
+	*line = ft_strjoin(str, tmp_tp);
+	ft_cut_tp(tp, len_tp);
+	free(tmp_tp);
+	free(str);
+}
+
+void	ft_tp_str_lnull(t_print *tp, char **line)
+{
+	int		len_tp;
+	char	*str;
+
+	len_tp = ft_strlen(tp->content);
+	str = ft_strdup(*line);
+	free(*line);
+	*line = ft_strjoin(str, tp->content);
+	ft_cut_tp(tp, len_tp);
+	free(str);
+}
+
+int	ft_tp_line(t_print *tp, char **line)
+{
+	char	*str;
+	int		len_tp;
+
+	str = ft_strchr(tp->content, '\n');
+	if (str && !*line)
+	{
+		len_tp = str - tp->content + 1;
+		*line = ft_put_line(tp->content, len_tp);
+		ft_cut_tp(tp, len_tp);
+	}
+	else if (str && *line)
+		ft_tp_str_line(tp, &(*line));
+	else if (*tp->content && *line != NULL)
+		ft_tp_str_lnull(tp, &(*line));
+	else
+	{
+		len_tp = ft_strlen(tp->content);
+		*line = ft_put_line(tp->content, len_tp);
+		ft_cut_tp(tp, len_tp);
+	}
 	return (1);
 }
 
-int ft_tp(t_print *tp)
+void	ft_cut_tp(t_print *tp, int len_trim)
 {
-	char *tmp;
+	char *str;
+	int		len_tp;
 
-	if (tp->line == NULL)
-		tp->line = "";
-	tmp = ft_strjoin("", tp->line);
-	tp->line = (NULL);
-	free(tp->line);
-	tp->line = ft_strjoin(tmp, tp->content);
-	tmp = (NULL);
-	free(tmp);
-	return (1);
+	len_tp = ft_strlen(tp->content);
+	str = ft_strjoin(tp->content, "");
+	while (len_tp >= 0)
+	{
+		tp->content[len_tp] = '\0';
+		len_tp--;
+	}
+	len_tp = 0;
+	while (str[len_trim] != '\0')
+	{
+		tp->content[len_tp] = str[len_trim];
+		len_trim++;
+		len_tp++;
+	}
+	free(str);
 }
