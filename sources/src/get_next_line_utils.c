@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:30 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/12 20:29:40 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/12 20:36:19 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,76 +77,6 @@ char *ft_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-// Copia n bits del char y devuelve un puntero char con los bits copiados
-void *ft_put_line(const char *s, int n)
-{
-	char *tmp;
-	int		i;
-
-	tmp = (char *)malloc(n);
-	if (!tmp)
-		return (NULL);
-	else
-	{
-		i = 0;
-		while (i < n)
-		{
-			tmp[i] = s[i];
-			i++;
-		}
-		tmp[i] = '\0';
-	}
-	return (tmp);
-}
-
-void ft_tp_line_ex(t_print *tp, char **line, int len_tp, int i, char *str)
-{
-	char *tmp_tp;
-
-	if (i == 1)
-		*line = ft_put_line(tp->content, len_tp);
-	else if (i == 2)
-	{
-		tmp_tp = ft_put_line(tp->content, len_tp);
-		str = ft_strjoin(*line, "");
-		free(*line);
-		*line = ft_strjoin(str, tmp_tp);
-		free(tmp_tp);
-		free(str);
-	}
-	else if (i == 3)
-	{
-		len_tp = ft_strlen(tp->content);
-		str = ft_strjoin(*line, "");
-		free(*line);
-		*line = ft_strjoin(str, tp->content);
-		free(str);
-	}
-	ft_cut_tp(tp, len_tp);
-}
-
-int	ft_tp_line(t_print *tp, char **line)
-{
-	char *str;
-	int		len_tp;
-
-	str = ft_strchr(tp->content, '\n');
-	len_tp = str - tp->content + 1;
-	if (str && !*line)
-		ft_tp_line_ex(tp, &(*line), len_tp, 1, str);
-	else if (str && *line)
-		ft_tp_line_ex(tp, &(*line), len_tp, 2, str);
-	else if (*tp->content && *line != NULL)
-		ft_tp_line_ex(tp, &(*line), len_tp, 3, str);
-	else
-	{
-		len_tp = ft_strlen(tp->content);
-		*line = ft_put_line(tp->content, len_tp);
-		ft_cut_tp(tp, len_tp);
-	}
-	return (1);
-}
-
 // Corta los bits de content que ya han sido pasados a line
 void	ft_cut_tp(t_print *tp, int len_trim)
 {
@@ -169,8 +99,3 @@ void	ft_cut_tp(t_print *tp, int len_trim)
 	}
 	free(str);
 }
-
-
-// 8
-// 3 en main
-// 5 -> 2 FUERA
