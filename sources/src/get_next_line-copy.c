@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/12 12:26:05 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/11 16:28:13 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,38 @@
 
 static int	ft_buffer(int fd, t_print *tp, char **line)
 {
+	int size_buf;
+
+	size_buf = 0;
 	if (!*tp->content)
-		tp->size_buf = read(fd, tp->content, BUFFER_SIZE);
+		size_buf = read(fd, tp->content, BUFFER_SIZE);
 	if (*tp->content)
 		ft_tp_line(tp, (&(*line)));
-	if (!tp->size_buf && !*line) // ya no hay nada
+	if (!size_buf && !*line) // ya no hay nada
 		return (0);
-	if (!*tp->content && !tp->size_buf && *line) // la ultima fila
+	if (!*tp->content && !size_buf && *line) // la ultima fila
 		return (0);
 	else if (!ft_strchr(*line, '\n'))
 		ft_buffer(fd, tp, &(*line));
-	return (1);
+	return (size_buf);
 }
 
 char *get_next_line(int fd)
 {
 	static t_print *tp;
 	char *line;
+	int size_buf;
 
 	if (!tp)
 		tp = (t_print *)malloc(sizeof(t_print) * 1);
 	if (!tp)
 		return (NULL);
 	line = (NULL);
-	ft_buffer(fd, &(*tp), &line);
+	size_buf = ft_buffer(fd, &(*tp), &line);
 	if (line)
 		return (line);
-	else if (!line && !((*tp)).size_buf)
+	// else if (!line && !((*tp)).size_buf)
+	else if (!line && !size_buf)
 	{
 		if (tp)
 			free(tp);
@@ -66,7 +71,6 @@ char *get_next_line(int fd)
 // 	char *line;
 
 // 	fd = open("../test/text-copy.txt", O_RDONLY);
-// 	// fd = open("../test/empty.txt", O_RDONLY);
 // 	if (fd == -1)
 // 		return (-1);
 // 	while (1)

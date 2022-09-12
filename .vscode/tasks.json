@@ -7,7 +7,7 @@
       "args": [
         // "-fdiagnostics-color=always",
         "-g3",
-        "-Wall -Wextra -Werror",
+        // "-Wall -Wextra -Werror",
         // "-Og",
         "${file}",
         "${workspaceFolder}/sources/src/get_next_line_utils.c",
