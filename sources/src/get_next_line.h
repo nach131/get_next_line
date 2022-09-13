@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:32:47 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/12 21:10:32 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/13 16:17:07 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+# define BUFFER_SIZE 3
 #endif
 
 #include <sys/types.h>

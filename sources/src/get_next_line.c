@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/12 21:12:18 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/13 16:23:31 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ int	ft_buffer(int fd, t_print *tp, char **line)
 		tp->size_buf = read(fd, tp->content, BUFFER_SIZE);
 	if (*tp->content)
 		ft_tp_line(tp, (&(*line)));
-	if (!tp->size_buf && !*line) // ya no hay nada
+	if ((!tp->size_buf && !*line) || (!*tp->content && !tp->size_buf && *line))
 		return (0);
-	if (!*tp->content && !tp->size_buf && *line) // la ultima fila
-		return (0);
+	// if (!*tp->content && !tp->size_buf && *line) // la ultima fila
+	// 	return (0);
 	else if (!ft_strchr(*line, '\n'))
 		ft_buffer(fd, tp, &(*line));
 	return (1);
@@ -137,7 +137,8 @@ int	main(void)
 	int		fd;
 	char *line;
 
-	fd = open("../test/text-copy.txt", O_RDONLY);
+	// fd = open("../test/text-copy.txt", O_RDONLY);
+	fd = open("../test/text.txt", O_RDONLY);
 	// fd = open("../test/empty.txt", O_RDONLY);
 	if (fd == -1)
 		return (-1);
