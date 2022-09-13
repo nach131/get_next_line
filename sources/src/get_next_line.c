@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/13 16:23:31 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/13 20:55:37 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,28 +132,28 @@ char *get_next_line(int fd)
 	return (line);
 }
 
-int	main(void)
-{
-	int		fd;
-	char *line;
+// int	main(void)
+// {
+// 	int		fd;
+// 	char *line;
 
-	// fd = open("../test/text-copy.txt", O_RDONLY);
-	fd = open("../test/text.txt", O_RDONLY);
-	// fd = open("../test/empty.txt", O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break;
-		else if (line)
-		{
-			printf("%s", line);
-			// printf("----------------\n");
-			if (line)
-				free(line);
-		}
-	}
-	return (1);
-}
+// 	// fd = open("../test/text-copy.txt", O_RDONLY);
+// 	// fd = open("../test/text.txt", O_RDONLY);
+// 	fd = open("../test/multiple_line_no_nl", O_RDONLY);
+// 	if (fd == -1)
+// 		return (-1);
+// 	while (1)
+// 	{
+// 		line = get_next_line(fd);
+// 		if (line == NULL)
+// 			break;
+// 		else if (line)
+// 		{
+// 			printf("%s", line);
+// 			// printf("----------------\n");
+// 			if (line)
+// 				free(line);
+// 		}
+// 	}
+// 	return (1);
+// }
