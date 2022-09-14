@@ -23,7 +23,7 @@
 typedef struct s_print
 {
 	char content[BUFFER_SIZE];
-	// char *line;
+	char *line;
 } t_print;
 
 static int ft_join(char *str, t_print *tp)
@@ -84,22 +84,23 @@ static int ft_line(char *str, t_print *tp, int len)
 
 static char *get_next_line()
 {
-	static t_print tp;
-	tp = (struct tp *)malloc(sizeof(struct tp));
+	static t_print *tp;
+	tp = (t_print *)malloc(sizeof(t_print) * 1);
 
 	int len;
 	char *str = "Bar\n";
 	ft_join(str, &tp);
 	ft_join(str, &tp);
 
-	str = strchr(tp.content, '\n');
+	str = strchr(tp->content, '\n');
 	if (str)
 	{
-		len = str - tp.content;
-		ft_line(tp.content, &tp, len);
+		len = str - tp->content;
+		ft_line(tp->content, &tp, len);
 	}
-	return (tp.line);
+	return (tp->line);
 }
+
 
 int main(void)
 {

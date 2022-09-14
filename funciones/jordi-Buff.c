@@ -63,6 +63,13 @@ static int ft_join(char *str, t_print *tp)
 		free(tmp);
 		tp->content[len2] = '\0';
 	}
+	printf("%d\n", getpid());
+	i = 0;
+	while(i < 10)
+	{
+		sleep(1);
+		i++;
+	}
 	return (1);
 }
 
@@ -105,4 +112,13 @@ int main(void)
 	line = get_next_line();
 	printf("\e[3;32m%s\n\e[0m", line);
 	// free(line);
+	int i = 0;
+	printf("%d\n", getpid());
+		line = NULL;
+	while(i < 10)
+	{
+		sleep(1);
+		i++;
+	}
+
 }
