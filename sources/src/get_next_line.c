@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/15 16:16:45 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/15 20:32:17 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,12 @@ void ft_tp_line_ex(t_print *tp, char **line, int len_tp, char *str)
 	char *tmp_tp;
 
 	if (str && !*line)
-		*line = ft_put_line(tp->content, len_tp);
+	{
+		// *line = ft_put_line(tp->content, len_tp);
+		tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
+		ft_memcpy(tmp_tp, tp->content, len_tp);
+		*line = tmp_tp;
+	}
 	else if (str && *line)
 	{
 		tmp_tp = ft_put_line(tp->content, len_tp);
@@ -87,7 +92,8 @@ int	ft_tp_line(t_print *tp, char **line)
 	else
 	{
 		len_tp = ft_strlen(tp->content);
-		*line = ft_put_line(tp->content, len_tp);
+		// *line = ft_put_line(tp->content, len_tp);
+		*line = ft_strjoin(tp->content, "");
 		ft_cut_tp(tp, len_tp);
 	}
 	return (1);
@@ -124,7 +130,6 @@ void *ft_calloc_plus(size_t count, size_t size)
 		ch[i] = '\0';
 		i++;
 	}
-	// ft_bzero(puntero, count * size);
 	return (puntero);
 }
 
@@ -158,8 +163,8 @@ char *get_next_line(int fd)
 // 	int		fd;
 // 	char *line;
 
-// 	// fd = open("../test/text-copy.txt", O_RDONLY);
-// 	fd = open("../test/text.txt", O_RDONLY);
+// 	fd = open("../test/text-copy.txt", O_RDONLY);
+// 	// fd = open("../test/text.txt", O_RDONLY);
 // 	// fd = open("../test/giant_line.txt", O_RDONLY);
 // 	// close(fd);
 

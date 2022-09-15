@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:32:47 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/15 16:05:28 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/15 20:24:33 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 3
+#  define BUFFER_SIZE 42
 # endif
 
 # include <sys/types.h>
@@ -40,5 +40,6 @@ void	ft_cut_tp(t_print *tp, int len_trim);
 
 int		ft_buffer(int fd, t_print *tp, char **line);
 char	*get_next_line(int fd);
+void *ft_calloc_plus(size_t count, size_t size);
 
 #endif
