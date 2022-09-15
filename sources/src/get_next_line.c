@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/13 20:55:37 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/15 16:16:45 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void *ft_put_line(const char *s, int n)
 	char *tmp;
 	int		i;
 
-	tmp = (char *)malloc(n);
+	tmp = (char *)malloc(n + 1);
 	if (!tmp)
 		return (NULL);
 	else
@@ -108,6 +108,26 @@ int	ft_buffer(int fd, t_print *tp, char **line)
 	return (1);
 }
 
+void *ft_calloc_plus(size_t count, size_t size)
+{
+	void *puntero;
+	char *ch;
+	size_t	i;
+
+	puntero = malloc(count * size);
+	if (!puntero)
+		return (NULL);
+	ch = puntero;
+	i = 0;
+	while (i < (count * size))
+	{
+		ch[i] = '\0';
+		i++;
+	}
+	// ft_bzero(puntero, count * size);
+	return (puntero);
+}
+
 char *get_next_line(int fd)
 {
 	static t_print *tp;
@@ -116,14 +136,14 @@ char *get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	if (!tp)
-		tp = (t_print *)malloc(sizeof(t_print) * 1);
+		tp = (t_print *)ft_calloc_plus(sizeof(t_print), 1);
 	if (!tp)
 		return (NULL);
 	line = (NULL);
 	ft_buffer(fd, &(*tp), &line);
 	if (line)
 		return (line);
-	else if (!line && !((*tp)).size_buf)
+	else if ((!line && !((*tp)).size_buf) || (*tp).size_buf < 0)
 	{
 		if (tp)
 			free(tp);
@@ -139,9 +159,9 @@ char *get_next_line(int fd)
 // 	char *line;
 
 // 	// fd = open("../test/text-copy.txt", O_RDONLY);
-// 	// fd = open("../test/text.txt", O_RDONLY);
-// 	fd = open("../test/empty.txt", O_RDONLY);
-// 	close(fd);
+// 	fd = open("../test/text.txt", O_RDONLY);
+// 	// fd = open("../test/giant_line.txt", O_RDONLY);
+// 	// close(fd);
 
 // 	// if (fd == -1)
 // 	// 	return (-1);

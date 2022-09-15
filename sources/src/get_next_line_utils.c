@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:30 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/12 20:36:19 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/15 02:36:56 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char *ft_strchr(const char *s, int c)
 	int	i;
 
 	i = 0;
+	// if (BUFFER_SIZE <= ft_strlen(s))
+	// 	return (NULL);
 	while (s[i] != (char)c && s[i] != '\0')
 		i++;
 	if (s[i] == (char)c)
