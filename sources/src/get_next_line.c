@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/15 20:32:17 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/15 23:46:44 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,26 @@
 #include "get_next_line.h"
 
 // Copia n bits del char y devuelve un puntero char con los bits copiados
-void *ft_put_line(const char *s, int n)
-{
-	char *tmp;
-	int		i;
+// void *ft_put_line(const char *s, int n)
+// {
+// 	char *tmp;
+// 	int		i;
 
-	tmp = (char *)malloc(n + 1);
-	if (!tmp)
-		return (NULL);
-	else
-	{
-		i = 0;
-		while (i < n)
-		{
-			tmp[i] = s[i];
-			i++;
-		}
-		tmp[i] = '\0';
-	}
-	return (tmp);
-}
+// 	tmp = (char *)malloc(n + 1);
+// 	if (!tmp)
+// 		return (NULL);
+// 	else
+// 	{
+// 		i = 0;
+// 		while (i < n)
+// 		{
+// 			tmp[i] = s[i];
+// 			i++;
+// 		}
+// 		tmp[i] = '\0';
+// 	}
+// 	return (tmp);
+// }
 
 void ft_tp_line_ex(t_print *tp, char **line, int len_tp, char *str)
 {
@@ -51,14 +51,14 @@ void ft_tp_line_ex(t_print *tp, char **line, int len_tp, char *str)
 
 	if (str && !*line)
 	{
-		// *line = ft_put_line(tp->content, len_tp);
 		tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
 		ft_memcpy(tmp_tp, tp->content, len_tp);
 		*line = tmp_tp;
 	}
 	else if (str && *line)
 	{
-		tmp_tp = ft_put_line(tp->content, len_tp);
+		tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
+		ft_memcpy(tmp_tp, tp->content, len_tp);
 		str = ft_strjoin(*line, "");
 		free(*line);
 		*line = ft_strjoin(str, tmp_tp);
@@ -92,7 +92,6 @@ int	ft_tp_line(t_print *tp, char **line)
 	else
 	{
 		len_tp = ft_strlen(tp->content);
-		// *line = ft_put_line(tp->content, len_tp);
 		*line = ft_strjoin(tp->content, "");
 		ft_cut_tp(tp, len_tp);
 	}
