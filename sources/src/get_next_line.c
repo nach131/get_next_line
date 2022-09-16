@@ -14,51 +14,34 @@
 /* ║                 https://github.com/nach131/42Barcelona                 ║ */
 /* ╚════════════════════════════════════════════════════════════════════════╝ */
 
-// solo para open
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
 #include "get_next_line.h"
 
-// Copia n bits del char y devuelve un puntero char con los bits copiados
-// void *ft_put_line(const char *s, int n)
-// {
-// 	char *tmp;
-// 	int		i;
+void *ft_calloc(size_t count, size_t size)
+{
+	void *puntero;
+	char *ch;
+	size_t	i;
 
-// 	tmp = (char *)malloc(n + 1);
-// 	if (!tmp)
-// 		return (NULL);
-// 	else
-// 	{
-// 		i = 0;
-// 		while (i < n)
-// 		{
-// 			tmp[i] = s[i];
-// 			i++;
-// 		}
-// 		tmp[i] = '\0';
-// 	}
-// 	return (tmp);
-// }
+	puntero = malloc(count * size);
+	if (!puntero)
+		return (NULL);
+	ch = puntero;
+	i = 0;
+	while (i < (count * size))
+	{
+		ch[i] = '\0';
+		i++;
+	}
+	return (puntero);
+}
 
 void ft_tp_line_ex(t_print *tp, char **line, int len_tp, char *str)
 {
 	char *tmp_tp;
 
-	// if (str && !*line)
-	// {
-	// 	tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
-	// 	ft_memcpy(tmp_tp, tp->content, len_tp);
-	// 	*line = tmp_tp;
-	// }
 	if (str && *line)
-		// else if (str && *line)
 	{
-		tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
+		tmp_tp = (char *)ft_calloc(len_tp, sizeof(tmp_tp));
 		ft_memcpy(tmp_tp, tp->content, len_tp);
 		str = ft_strjoin(*line, "");
 		free(*line);
@@ -81,17 +64,16 @@ int	ft_tp_line(t_print *tp, char **line)
 {
 	char *str;
 	int		len_tp;
-	char *tmp_tp;
 
 	str = ft_strchr(tp->content, '\n');
 	len_tp = str - tp->content + 1;
 	if (str && !*line)
-	{
-		tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
-		ft_memcpy(tmp_tp, tp->content, len_tp);
-		*line = tmp_tp;
-	}
-	// ft_tp_line_ex(tp, &(*line), len_tp, str);
+		{
+			str = (char *)ft_calloc(len_tp, sizeof(str));
+			ft_memcpy(str, tp->content, len_tp);
+			ft_cut_tp(tp, len_tp);
+			*line = str;
+		}
 	else if (str && *line)
 		ft_tp_line_ex(tp, &(*line), len_tp, str);
 	else if (*tp->content && *line != NULL)
@@ -120,25 +102,6 @@ int	ft_buffer(int fd, t_print *tp, char **line)
 	return (1);
 }
 
-void *ft_calloc_plus(size_t count, size_t size)
-{
-	void *puntero;
-	char *ch;
-	size_t	i;
-
-	puntero = malloc(count * size);
-	if (!puntero)
-		return (NULL);
-	ch = puntero;
-	i = 0;
-	while (i < (count * size))
-	{
-		ch[i] = '\0';
-		i++;
-	}
-	return (puntero);
-}
-
 char *get_next_line(int fd)
 {
 	static t_print *tp;
@@ -147,7 +110,7 @@ char *get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	if (!tp)
-		tp = (t_print *)ft_calloc_plus(sizeof(t_print), 1);
+		tp = (t_print *)ft_calloc(sizeof(t_print), 1);
 	if (!tp)
 		return (NULL);
 	line = (NULL);
@@ -170,8 +133,8 @@ char *get_next_line(int fd)
 // 	char *line;
 
 // 	// fd = open("../test/text-copy.txt", O_RDONLY);
-// 	fd = open("../test/nl", O_RDONLY);
-// 	// fd = open("../test/giant_line.txt", O_RDONLY);
+// 	// fd = open("../test/nl", O_RDONLY);
+// 	fd = open("../test/multiple_nl.txt", O_RDONLY);
 // 	// close(fd);
 
 // 	// if (fd == -1)

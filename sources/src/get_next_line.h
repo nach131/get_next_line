@@ -32,14 +32,13 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strchr(const char *s, int c);
 int		ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
+void	ft_cut_tp(t_print *tp, int len_trim);
 
-void	*ft_put_line(const char *s, int n);
+void *ft_calloc(size_t count, size_t size);
 void	ft_tp_line_ex(t_print *tp, char **line, int len_tp, char *str);
 int		ft_tp_line(t_print *tp, char **line);
-void	ft_cut_tp(t_print *tp, int len_trim);
 
 int		ft_buffer(int fd, t_print *tp, char **line);
 char	*get_next_line(int fd);
-void *ft_calloc_plus(size_t count, size_t size);
 
 #endif
