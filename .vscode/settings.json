@@ -1,3 +1,9 @@
 {
-	"makefile.extensionOutputFolder": "./.vscode"
+	"makefile.extensionOutputFolder": "./.vscode",
+	"files.associations": {
+		"*.js": "javascriptreact",
+		"*.hbs": "handlebars",
+		"*.c": "c",
+		"sstream": "c"
+	}
 }

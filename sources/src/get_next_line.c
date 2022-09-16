@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/15 23:46:44 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/16 09:12:11 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ void ft_tp_line_ex(t_print *tp, char **line, int len_tp, char *str)
 {
 	char *tmp_tp;
 
-	if (str && !*line)
-	{
-		tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
-		ft_memcpy(tmp_tp, tp->content, len_tp);
-		*line = tmp_tp;
-	}
-	else if (str && *line)
+	// if (str && !*line)
+	// {
+	// 	tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
+	// 	ft_memcpy(tmp_tp, tp->content, len_tp);
+	// 	*line = tmp_tp;
+	// }
+	if (str && *line)
+		// else if (str && *line)
 	{
 		tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
 		ft_memcpy(tmp_tp, tp->content, len_tp);
@@ -80,11 +81,17 @@ int	ft_tp_line(t_print *tp, char **line)
 {
 	char *str;
 	int		len_tp;
+	char *tmp_tp;
 
 	str = ft_strchr(tp->content, '\n');
 	len_tp = str - tp->content + 1;
 	if (str && !*line)
-		ft_tp_line_ex(tp, &(*line), len_tp, str);
+	{
+		tmp_tp = (char *)ft_calloc_plus(len_tp, sizeof(tmp_tp));
+		ft_memcpy(tmp_tp, tp->content, len_tp);
+		*line = tmp_tp;
+	}
+	// ft_tp_line_ex(tp, &(*line), len_tp, str);
 	else if (str && *line)
 		ft_tp_line_ex(tp, &(*line), len_tp, str);
 	else if (*tp->content && *line != NULL)
@@ -162,8 +169,8 @@ char *get_next_line(int fd)
 // 	int		fd;
 // 	char *line;
 
-// 	fd = open("../test/text-copy.txt", O_RDONLY);
-// 	// fd = open("../test/text.txt", O_RDONLY);
+// 	// fd = open("../test/text-copy.txt", O_RDONLY);
+// 	fd = open("../test/nl", O_RDONLY);
 // 	// fd = open("../test/giant_line.txt", O_RDONLY);
 // 	// close(fd);
 
