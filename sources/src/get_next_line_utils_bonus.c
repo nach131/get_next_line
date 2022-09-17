@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:30 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/15 02:36:56 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/17 13:51:23 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 #include "get_next_line.h"
 #include <string.h>
 
-void *ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	char *de;
-	char *sr;
+	char	*de;
+	char	*sr;
 	size_t	i;
 
 	de = (char *)dest;
@@ -38,13 +38,11 @@ void *ft_memcpy(void *dest, const void *src, size_t n)
 	return (NULL);
 }
 
-char *ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
 	i = 0;
-	// if (BUFFER_SIZE <= ft_strlen(s))
-	// 	return (NULL);
 	while (s[i] != (char)c && s[i] != '\0')
 		i++;
 	if (s[i] == (char)c)
@@ -62,9 +60,9 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
-char *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char *res;
+	char	*res;
 	size_t	len_s1;
 	size_t	len_s2;
 
@@ -82,7 +80,7 @@ char *ft_strjoin(char const *s1, char const *s2)
 // Corta los bits de content que ya han sido pasados a line
 void	ft_cut_tp(t_print *tp, int len_trim)
 {
-	char *str;
+	char	*str;
 	int		len_tp;
 
 	len_tp = ft_strlen(tp->content);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/16 09:12:11 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/17 13:48:31 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 #include "get_next_line.h"
 
-void *ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t count, size_t size)
 {
-	void *puntero;
-	char *ch;
+	void	*puntero;
+	char	*ch;
 	size_t	i;
 
 	puntero = malloc(count * size);
@@ -35,9 +35,9 @@ void *ft_calloc(size_t count, size_t size)
 	return (puntero);
 }
 
-void ft_tp_line_ex(t_print *tp, char **line, int len_tp, char *str)
+void	ft_tp_line_ex(t_print *tp, char **line, int len_tp, char *str)
 {
-	char *tmp_tp;
+	char	*tmp_tp;
 
 	if (str && *line)
 	{
@@ -62,18 +62,18 @@ void ft_tp_line_ex(t_print *tp, char **line, int len_tp, char *str)
 
 int	ft_tp_line(t_print *tp, char **line)
 {
-	char *str;
+	char	*str;
 	int		len_tp;
 
 	str = ft_strchr(tp->content, '\n');
 	len_tp = str - tp->content + 1;
 	if (str && !*line)
-		{
-			str = (char *)ft_calloc(len_tp, sizeof(str));
-			ft_memcpy(str, tp->content, len_tp);
-			ft_cut_tp(tp, len_tp);
-			*line = str;
-		}
+	{
+		str = (char *)ft_calloc(len_tp, sizeof(str));
+		ft_memcpy(str, tp->content, len_tp);
+		ft_cut_tp(tp, len_tp);
+		*line = str;
+	}
 	else if (str && *line)
 		ft_tp_line_ex(tp, &(*line), len_tp, str);
 	else if (*tp->content && *line != NULL)
@@ -102,10 +102,10 @@ int	ft_buffer(int fd, t_print *tp, char **line)
 	return (1);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static t_print *tp[1023];
-	char *line;
+	static t_print	*tp[1023];
+	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
