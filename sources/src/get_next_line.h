@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:32:47 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/17 15:36:24 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:01:54 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 typedef struct s_print
 {
 	char	content[BUFFER_SIZE];
-	ssize_t	size_buf;
 }	t_print;
 
 void	*ft_memcpy(void *dest, const void *src, size_t n);

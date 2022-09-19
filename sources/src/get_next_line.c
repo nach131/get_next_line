@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/17 13:24:37 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:01:03 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,23 +89,26 @@ int	ft_tp_line(t_print *tp, char **line)
 
 int	ft_buffer(int fd, t_print *tp, char **line)
 {
+	int	size_buf;
+
 	if (!*tp->content)
-		tp->size_buf = read(fd, tp->content, BUFFER_SIZE);
-	if (tp->size_buf < 0)
+		size_buf = read(fd, tp->content, BUFFER_SIZE);
+	if (size_buf < 0)
 		return (-1);
 	if (*tp->content)
 		ft_tp_line(tp, (&(*line)));
-	if ((!tp->size_buf && !*line) || (!*tp->content && !tp->size_buf && *line))
+	if ((!size_buf && !*line) || (!*tp->content && !size_buf && *line))
 		return (0);
 	else if (!ft_strchr(*line, '\n'))
 		ft_buffer(fd, tp, &(*line));
-	return (1);
+	return (size_buf);
 }
 
 char	*get_next_line(int fd)
 {
 	static t_print	*tp;
 	char			*line;
+	int				size_buf;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
@@ -114,10 +117,11 @@ char	*get_next_line(int fd)
 	if (!tp)
 		return (NULL);
 	line = (NULL);
-	ft_buffer(fd, &(*tp), &line);
+	size_buf = ft_buffer(fd, &(*tp), &line);
 	if (line)
 		return (line);
-	else if ((!line && !((*tp)).size_buf) || (*tp).size_buf < 0)
+	// else if ((!line && !((*tp)).size_buf) || (*tp).size_buf < 0)
+	else if ((!line && !size_buf) || size_buf < 0)
 	{
 		if (tp)
 			free(tp);
