@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:30 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/17 13:50:18 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:06:26 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /* ╚════════════════════════════════════════════════════════════════════════╝ */
 
 #include "get_next_line.h"
-#include <string.h>
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {

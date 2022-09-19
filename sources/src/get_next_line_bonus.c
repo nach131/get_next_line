@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/17 13:48:31 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:03:53 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 /* ║                 https://github.com/nach131/42Barcelona                 ║ */
 /* ╚════════════════════════════════════════════════════════════════════════╝ */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	*ft_calloc(size_t count, size_t size)
 {
