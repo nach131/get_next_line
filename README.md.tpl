@@ -14,6 +14,6 @@
 
 <h1 align="center">
 
-![mapa](get_next_line.png)
+![libft](https://github.com/nach131/42Barcelona/blob/main/images/125.png)
 
-<!-- ![libft](https://github.com/nach131/42Barcelona/blob/main/images/125.png) -->
+![mapa](get_next_line.png)
