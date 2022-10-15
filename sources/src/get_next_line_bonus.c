@@ -101,10 +101,10 @@ int	ft_buffer(int fd, t_print *tp, char **line)
 		ft_buffer(fd, tp, &(*line));
 	return (1);
 }
-
+// define OPEN_MAX        10240   /* max open files per process - sys/syslimits.h
 char	*get_next_line(int fd)
 {
-	static t_print	*tp[1023];
+	static t_print	*tp[10240];
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
