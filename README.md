@@ -4,7 +4,7 @@
 	get_next_line
 </h1>
  <p align="center">
-<img alt="total-views" src="https://img.shields.io/badge/views-56-blue">
+<img alt="total-views" src="https://img.shields.io/badge/views-50-blue">
 <img alt="total-clone" src="https://img.shields.io/badge/clone-123-blue">
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/nach131/get_next_line">
 <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/nach131/get_next_line">
