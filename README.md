@@ -14,6 +14,8 @@
 
 <h1 align="center">
 
-![libft](https://github.com/nach131/42Barcelona/blob/main/images/125.png)
+![visitors](https://visitor-badge.glitch.me/badge?page_id=nach131.get_next_line&left_color=green&right_color=blue)
+
+![125](https://github.com/nach131/42Barcelona/blob/main/images/125.png)
 
 ![mapa](get_next_line.png)
