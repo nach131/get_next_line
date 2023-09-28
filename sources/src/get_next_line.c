@@ -6,7 +6,7 @@
 /*   By: nmota-bu <nmota-bu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 17:30:14 by nmota-bu          #+#    #+#             */
-/*   Updated: 2022/09/17 13:24:37 by nmota-bu         ###   ########.fr       */
+/*   Updated: 2023/09/28 10:49:11 by nmota-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,9 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+// //=========================================================================
+// #include <stdio.h>
+// #include <fcntl.h>
 // int	main(void)
 // {
 // 	int		fd;
@@ -134,7 +137,7 @@ char	*get_next_line(int fd)
 
 // 	// fd = open("../test/text-copy.txt", O_RDONLY);
 // 	// fd = open("../test/nl", O_RDONLY);
-// 	fd = open("../test/multiple_nl.txt", O_RDONLY);
+// 	fd = open("../test/text.txt", O_RDONLY);
 // 	// close(fd);
 
 // 	// if (fd == -1)
@@ -157,3 +160,25 @@ char	*get_next_line(int fd)
 // 	}
 // 	return (1);
 // }
+// //=========================================================================
+
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+int main(int argc, char **argv)
+{
+	char *line;
+	int fd;
+
+	(void)argc;
+	fd = open(argv[1], O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	return (0);
+}
